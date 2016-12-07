@@ -1,6 +1,9 @@
 # k8s-deployer
 Deploy multiple repositories containing Kubernetes configs with one command.  
 
+## Dependencies
+kubectl needs to be installed and configured to connect to the cluster you want to deploy to.
+
 ## Namespaces
 If the namespace you specify does not exist, it will create it.
 
@@ -45,7 +48,7 @@ Usage of k8s-deployer:
   -namespace string
         Namespace
   -redis string
-        Redis
+        Redis state DB. Ex: localhost:6379
 
 # deploy repos specified in config.yml and record state in redis and also write an artifact file
 $ k8s-deployer -config config.yml -redis localhost:6379 -artifact state.yml

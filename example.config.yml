@@ -1,0 +1,15 @@
+---
+
+namespace: "{{ .CI_BUILD_REF_NAME }}"
+defaultBranch: master
+kubernetesFolder: "k8s/"
+
+updateRepoVar: "CI_UPSTREAM_PROJECT_NAME"
+updateRefVar: "CI_UPSTREAM_BUILD_REF"
+
+
+repositories:
+    - name: someservice
+      uri: "git@gitlab.com:group/someservice.git"
+    - name: otherservice
+      uri: "git@gitlab.com:group/otherservice.git"

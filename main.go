@@ -21,7 +21,7 @@ import (
 var (
 	config     *Config
 	configFile = flag.String("config", "", "Config file")
-	redisAddr  = flag.String("redis", "", "Redis")
+	redisAddr  = flag.String("redis", "", "Redis state DB. Ex: localhost:6379")
 	namespace  = flag.String("namespace", "", "Namespace")
 	artifact   = flag.String("artifact", "", "Create YAML with what was deployed")
 	clearState = flag.Bool("clear-state", false, "Clear the state for this namespace")
