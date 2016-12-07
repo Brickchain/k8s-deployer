@@ -46,7 +46,13 @@ func kubeApply(kubefile, tag string, env map[string]string) error {
 		return fmt.Errorf("Failed to read file %s: %s", kubefile, err)
 	}
 	tmpl, err := template.New("config").Parse(string(configBytes))
+	if err != nil {
+		return fmt.Errorf("Failed to create template: %s", err)
+	}
 	out, err := ioutil.TempFile(config.BaseDir, tag)
+	if err != nil {
+		return fmt.Errorf("Failed to create temp file: %s", err)
+	}
 	env["TAG"] = tag
 	err = tmpl.Execute(out, env)
 	if err != nil {

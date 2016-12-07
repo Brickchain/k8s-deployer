@@ -137,7 +137,7 @@ func main() {
 			log.Println("./" + config.KubeFolder + "/" + f.Name())
 			err = kubeApply(config.KubeFolder+"/"+f.Name(), "", envMap)
 			if err != nil {
-				log.Fatal("Failed to apply kubernetes config:", err)
+				log.Fatal("Failed to apply kubernetes config: ", err)
 			}
 		}
 	}
