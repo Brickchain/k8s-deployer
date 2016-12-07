@@ -30,9 +30,8 @@ func kubeCreateNamespace(namespace string) error {
 	err := cmd.Run()
 	log.Println(strings.Trim(out.String(), "\r\n"))
 	if err != nil {
-		exitErr := err.(*exec.ExitError)
-		log.Printf("Command 'kubectl create namespace %s' returned with non-zero code: %s\n", namespace, exitErr.String())
-		log.Println(strings.Trim(exitErr.String(), "\r\n"))
+		log.Printf("Command 'kubectl create namespace %s' returned with non-zero code: %s\n", namespace, err.Error())
+		log.Println(strings.Trim(errBuf.String(), "\r\n"))
 
 		return err
 	}
