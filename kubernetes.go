@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -42,14 +43,14 @@ func kubeCreateNamespace(namespace string) error {
 func kubeApply(kubefile, tag string, env map[string]string) error {
 	configBytes, err := ioutil.ReadFile(kubefile)
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed to read file %s: %s", kubefile, err)
 	}
 	tmpl, err := template.New("config").Parse(string(configBytes))
 	out, err := ioutil.TempFile(config.BaseDir, tag)
 	env["TAG"] = tag
 	err = tmpl.Execute(out, env)
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed to render template: %s", err)
 	}
 	out.Close()
 	cmd := exec.Command("kubectl", "-n", config.Namespace, "apply", "-f", out.Name())
