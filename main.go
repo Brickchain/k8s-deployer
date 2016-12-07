@@ -76,6 +76,9 @@ func main() {
 	if config.BaseDir == "<no value>" || config.BaseDir == "" {
 		config.BaseDir = "/tmp/deployer/"
 	}
+	if _, err := os.Stat(config.BaseDir); os.IsNotExist(err) {
+		os.Mkdir(config.BaseDir, 0700)
+	}
 
 	// Connect to Redis if address given
 	if *redisAddr != "" {
