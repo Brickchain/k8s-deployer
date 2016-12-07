@@ -1,0 +1,37 @@
+image: registry.brickchain.com/gitlab/gitlab-builder-go:1.7.3
+
+before_script:
+  - CI_PROJECT_HOST=gitlab.brickchain.com
+  - git config --global url."git@$CI_PROJECT_HOST:".insteadOf "https://$CI_PROJECT_HOST/"
+  - mkdir -p $GOPATH/src/$CI_PROJECT_HOST/$CI_PROJECT_NAMESPACE
+  - ln -s $CI_PROJECT_DIR $GOPATH/src/$CI_PROJECT_HOST/$CI_PROJECT_NAMESPACE
+  - cd $GOPATH/src/$CI_PROJECT_HOST/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
+
+stages:
+  - build
+  - deploy
+  - trigger
+
+go build:
+  stage: build
+  script:
+    - CGO_ENABLED=0 go build -tags netgo --ldflags '-extldflags "-static"'
+  artifacts:
+    paths:
+    - vaultenv
+
+upload to aws:
+  stage: deploy
+  only:
+    - master
+  script:
+    - eval $(vaultenv read -s secret/env/gitlab-ci/s3)
+    - aws s3 cp vaultenv s3://brickchain-artifacts/
+
+trigger downstream:
+  stage: trigger
+  only:
+    - master
+  script:
+    - gitlab_trigger_downstream
+  when: manual

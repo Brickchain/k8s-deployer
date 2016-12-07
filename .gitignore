@@ -1,5 +1,4 @@
 debug
-*.yml
 .vscode
 deployer
 k8s-deployer
