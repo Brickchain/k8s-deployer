@@ -18,7 +18,7 @@ go build:
     - CGO_ENABLED=0 go build -tags netgo --ldflags '-extldflags "-static"'
   artifacts:
     paths:
-    - vaultenv
+    - k8s-deployer
 
 upload to aws:
   stage: deploy
@@ -26,7 +26,7 @@ upload to aws:
     - master
   script:
     - eval $(vaultenv read -s secret/env/gitlab-ci/s3)
-    - aws s3 cp vaultenv s3://brickchain-artifacts/
+    - aws s3 cp k8s-deployer s3://brickchain-artifacts/
 
 trigger downstream:
   stage: trigger
