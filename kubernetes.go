@@ -45,7 +45,23 @@ func kubeApply(kubefile, tag string, env map[string]string) error {
 	if err != nil {
 		return fmt.Errorf("Failed to read file %s: %s", kubefile, err)
 	}
-	tmpl, err := template.New("config").Parse(string(configBytes))
+
+	funcMap := template.FuncMap{
+		"ToUpper": strings.ToUpper,
+		"ToLower": strings.ToLower,
+		"Title":   strings.Title,
+		"TrimPrefix": func(t, s string) string {
+			return strings.TrimPrefix(s, t)
+		},
+		"TrimSuffix": func(t, s string) string {
+			return strings.TrimSuffix(s, t)
+		},
+		"Replace": func(f, t, s string) string {
+			return strings.Replace(s, f, t, 1000)
+		},
+	}
+
+	tmpl, err := template.New("config").Funcs(funcMap).Parse(string(configBytes))
 	if err != nil {
 		return fmt.Errorf("Failed to create template: %s", err)
 	}

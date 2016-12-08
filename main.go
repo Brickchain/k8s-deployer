@@ -84,7 +84,7 @@ func main() {
 	if *redisAddr != "" {
 		state, err = NewRedisState(*redisAddr)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("Failed to connect to redis: ", err)
 		}
 	}
 
@@ -187,7 +187,7 @@ func main() {
 			return nil
 		})
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("Failure while cloning files for %s: ", repo.URI, err)
 		}
 
 		// Record state
