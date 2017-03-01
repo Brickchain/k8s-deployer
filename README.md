@@ -1,6 +1,9 @@
 # k8s-deployer
 Deploy multiple repositories containing Kubernetes configs with one command.  
 
+# Download binary  
+https://s3.eu-central-1.amazonaws.com/brickchain-artifacts/k8s-deployer  
+
 ## Dependencies
 kubectl needs to be installed and configured to connect to the cluster you want to deploy to.
 
